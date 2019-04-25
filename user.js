@@ -24,6 +24,10 @@ User.prototype.joinRoom = function (roomName) {
         return `Room doesn't exists`
     }
     if (access && DB.rooms[name][0].roomCount < 5) {
+        if(DB.rooms[name][1].members.includes(this.username)){
+            return `You are already a member of this room`;
+        }
+        else{
         //store members username.
         DB.rooms[name][1].members.push(this.username);
 
@@ -32,6 +36,7 @@ User.prototype.joinRoom = function (roomName) {
         DB.rooms[name][0].roomCount++;
 
         return `Welcome to ${name} room ${this.username}`
+       }
     }
     else {
         return `Room is full, please join another`;
@@ -49,8 +54,7 @@ User.prototype.sendChatMessage = function (roomName, message) {
         return `Room doesn't exists`
     }
     //check if user is a member the room
-    if (access && DB.rooms[name][1].members.includes(this.username)) {
-        //if(DB.rooms[name][1].members.i)
+    if (access && DB.rooms[name][1].members.includes(this.username)) { 
         let chat = {};
         chat[this.username] = message;
         DB.rooms[name][2].forum.push(chat);
@@ -100,8 +104,8 @@ console.log(user4.joinRoom('teens'));
 console.log(user5.joinRoom('teens'));
 console.log(user6.joinRoom('teens'));
 
-
 console.log(user1.leaveRoom('teens'));
+console.log(user2.joinRoom('teens'));
 console.log(user5.sendChatMessage('teens', 'Hey guys'));
 //console.log(user1.sendChatMessage('teenhds', 'Whats up guys'));
 
