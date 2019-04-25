@@ -20,5 +20,5 @@ Admin.prototype.viewUser = function(name){
 }
 
 let admin = new Admin('charles', 2345);
-console.log(admin.viewUser('marcus'));
+console.log(admin.viewUser('marcuas'));
 //console.log(DB)
