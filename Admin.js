@@ -39,6 +39,10 @@ Admin.prototype.deleteAllUsers = function(){
     return `user database all whiped off`;
 }
 
+Admin.prototype.readReports = function(){
+    return DB.user_reports;
+}
+
 
 let admin = new Admin('charles', 2345);
 admin.deleteAllUsers();
