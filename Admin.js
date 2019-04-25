@@ -34,6 +34,13 @@ Admin.prototype.deleteOneUser = function(name){
     return `username is invalid`;
 }
 
+Admin.prototype.deleteAllUsers = function(){
+    DB.users = [];
+    return `user database all whiped off`;
+}
+
+
 let admin = new Admin('charles', 2345);
+//admin.deleteAllUsers();
 console.log(admin.deleteOneUser('marcus'));
 console.log(DB)
