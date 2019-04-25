@@ -2,28 +2,28 @@ const DB = require('./DB');
 
 
 //creating the user constructor
-function User(username, password){
+function User(username, password) {
     this.username = username.toLowerCase();
     this.password = password;
     DB.users.push(this);
 }
 
 //user check for available rooms
-User.prototype.viewRooms = function viewRooms(){
+User.prototype.viewRooms = function viewRooms() {
     return Object.keys(DB.rooms);
 }
 
 //user can join room
-User.prototype.joinRoom = function(roomName){
+User.prototype.joinRoom = function (roomName) {
     let name = roomName.toLowerCase();
     let access = false;
     if (DB.rooms.hasOwnProperty(name)) {
-        access = true;        
+        access = true;
     }
-    else{
+    else {
         return `Room doesn't exists`
     }
-    if(access && DB.rooms[name][0].roomCount < 5){
+    if (access && DB.rooms[name][0].roomCount < 5) {
         //store members username.
         DB.rooms[name][1].members.push(this.username);
 
@@ -33,37 +33,53 @@ User.prototype.joinRoom = function(roomName){
 
         return `Welcome to ${name} room ${this.username}`
     }
-    else{
+    else {
         return `Room is full, please join another`;
-    }  
+    }
 }
 
-User.prototype.sendChatMessage = function(roomName, message){
+User.prototype.sendChatMessage = function (roomName, message) {
     let name = roomName.toLowerCase();
-    
+
     let access = false;
     if (DB.rooms.hasOwnProperty(name)) {
-        access = true;        
+        access = true;
     }
-    else{
+    else {
         return `Room doesn't exists`
     }
     //check if user is a member the room
-    if(access && DB.rooms[name][1].members.includes(this.username)){
+    if (access && DB.rooms[name][1].members.includes(this.username)) {
+        //if(DB.rooms[name][1].members.i)
         let chat = {};
         chat[this.username] = message;
         DB.rooms[name][2].forum.push(chat);
         return `message delivered`
     }
-    else{
+    else {
         return `You're not a member of this room, please join room.`
     }
 }
 
-User.prototype.sendReport = function(message){
+User.prototype.leaveRoom = function (roomName) {
+    if (DB.rooms.hasOwnProperty(roomName) && DB.rooms[roomName][1].members.includes(this.username)) {
+
+        DB.rooms[roomName][0].roomCount--;
+        for (let i = 0; i < 5; i++) {
+            if (DB.rooms[roomName][1].members[i] === this.username) {
+                DB.rooms[roomName][1].members.splice(i, 1)
+            }
+        }
+        DB.rooms[roomName][2].forum.push(`${this.username} left`)
+        return `You left the chat`;
+    }
+}
+
+User.prototype.sendReport = function (message) {
     DB.user_reports.push(message);
     return `Message delivered `
 }
+
 
 module.exports = User;
 
@@ -85,11 +101,12 @@ console.log(user5.joinRoom('teens'));
 console.log(user6.joinRoom('teens'));
 
 
+console.log(user1.leaveRoom('teens'));
 console.log(user5.sendChatMessage('teens', 'Hey guys'));
-console.log(user1.sendChatMessage('teenhds', 'Whats up guys'));
+//console.log(user1.sendChatMessage('teenhds', 'Whats up guys'));
 
 
 
 //console.log(DB.rooms.teens[2])
 
-//console.log(DB.users)
+console.log(DB.rooms.teens)

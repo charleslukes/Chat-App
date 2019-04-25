@@ -41,6 +41,6 @@ Admin.prototype.deleteAllUsers = function(){
 
 
 let admin = new Admin('charles', 2345);
-//admin.deleteAllUsers();
+admin.deleteAllUsers();
 console.log(admin.deleteOneUser('marcus'));
-console.log(DB)
+console.log(DB.rooms.teens)
