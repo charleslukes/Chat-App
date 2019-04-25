@@ -10,7 +10,15 @@ function Admin(name, password){
 Admin.prototype = Object.create(user.prototype);
 Admin.prototype.constructor = Admin;
 
+Admin.prototype.viewUser = function(name){
+    for (let i = 0; i < DB.users.length; i++) {
+        if(name === DB.users[i].username){
+            return DB.users[i];
+        }   
+    }
+    return `username is invalid`;
+}
 
 let admin = new Admin('charles', 2345);
-console.log(admin.viewRooms());
-console.log(DB)
+console.log(admin.viewUser('marcus'));
+//console.log(DB)

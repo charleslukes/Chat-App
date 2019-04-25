@@ -3,9 +3,9 @@ const DB = require('./DB');
 
 //creating the user constructor
 function User(username, password){
-    this.username = username;
+    this.username = username.toLowerCase();
     this.password = password;
-    DB.users.push(`username: ${this.username}, password: ${this.password}`);
+    DB.users.push(this);
 }
 
 //user check for available rooms
@@ -90,6 +90,6 @@ console.log(user1.sendChatMessage('teenhds', 'Whats up guys'));
 
 
 
-console.log(DB.rooms.teens[2])
+//console.log(DB.rooms.teens[2])
 
-console.log(DB)
+//console.log(DB)
