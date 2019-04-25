@@ -60,6 +60,10 @@ User.prototype.sendChatMessage = function(roomName, message){
     }
 }
 
+User.prototype.sendReport = function(message){
+    DB.user_reports.push(message);
+}
+
 module.exports = User;
 
 
