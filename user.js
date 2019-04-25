@@ -73,7 +73,7 @@ let user2 = new User('spartan', 222);
 let user3 = new User('amak', 111);
 let user4 = new User('josmak', 333);
 let user5 = new User('marcus', 444);
-let user6 = new User('marcus', 456);
+let user6 = new User('piro', 456);
 
 
 console.log(user1.viewRooms())

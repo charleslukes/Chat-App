@@ -23,6 +23,17 @@ Admin.prototype.viewAllUsers = function(){
     return DB.users;
 }
 
+Admin.prototype.deleteOneUser = function(name){
+    for (let i = 0; i < DB.users.length; i++) {
+        if(name === DB.users[i].username){
+            delete DB.users[i];
+            DB.users[i] = 0;
+            return `${name} deleted successfully`;
+        }   
+    }
+    return `username is invalid`;
+}
+
 let admin = new Admin('charles', 2345);
-console.log(admin.viewUser('marcuas'));
-//console.log(DB)
+console.log(admin.deleteOneUser('marcus'));
+console.log(DB)
