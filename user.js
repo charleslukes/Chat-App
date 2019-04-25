@@ -5,7 +5,7 @@ const DB = require('./DB');
 function User(username, password){
     this.username = username;
     this.password = password;
-    DB.users.push(this);
+    DB.users.push(`username: ${this.username}, password: ${this.password}`);
 }
 
 //user check for available rooms
@@ -60,6 +60,7 @@ User.prototype.sendChatMessage = function(roomName, message){
     }
 }
 
+module.exports = User;
 
 
 let user1 = new User('mickey', 123);
