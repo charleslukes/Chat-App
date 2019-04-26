@@ -10,4 +10,5 @@ let user4 = new User('josmak','josk@gmail.com', 333);
 let user5 = new User('marcus','marcus@gmail.com', 444);
 let user6 = new User('piro','piro@gmail.com', 456);
 
+console.log(user1.joinRoom('teens'))
 console.log(DB);

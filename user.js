@@ -1,5 +1,5 @@
 const DB = require('./DB');
-const access = require('./roomAccess')
+const roomAccess = require('./roomAccess')
 
 //creating the user constructor
 function User(username,email, password) {
@@ -20,8 +20,12 @@ User.prototype.viewRooms = function viewRooms() {
 User.prototype.joinRoom = function (roomName) {
 
     let name = roomName.toLowerCase();
+
     //Room access validation
-    access(name);
+    let access = roomAccess(name)
+    if(access !== true){
+        return access;
+    }
 
     if (access && DB.rooms[name][0].roomCount < 5) {
         if(DB.rooms[name][1].members.includes(this.username)){
@@ -46,8 +50,12 @@ User.prototype.joinRoom = function (roomName) {
 User.prototype.sendChatMessage = function (roomName, message) {
 
     let name = roomName.toLowerCase();
+
     //Room access validation
-    access(name);
+    let access = roomAccess(name)
+    if(access !== true){
+        return val;
+    }
 
     //check if user is a member the room
     if (access && DB.rooms[name][1].members.includes(this.username)) { 
@@ -64,9 +72,12 @@ User.prototype.sendChatMessage = function (roomName, message) {
 User.prototype.leaveRoom = function (roomName) {
 
     let name = roomName.toLowerCase();
-    //Room access validation
-    access(name);
 
+    //Room access validation
+    let access = roomAccess(name)
+    if(access !== true){
+        return val;
+    }
     if (DB.rooms.hasOwnProperty(roomName) && DB.rooms[roomName][1].members.includes(this.username)) {
 
         DB.rooms[roomName][0].roomCount--;

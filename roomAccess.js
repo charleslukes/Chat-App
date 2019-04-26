@@ -1,10 +1,8 @@
 const DB = require('./DB');
 
 function access(name){
-    let access = false;
     if (DB.rooms.hasOwnProperty(name)) {
-        access = true;
-        return access;
+        return true;
     }
     else {
         return `Room doesn't exists`
