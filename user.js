@@ -54,7 +54,7 @@ User.prototype.sendChatMessage = function (roomName, message) {
     //Room access validation
     let access = roomAccess(name)
     if(access !== true){
-        return val;
+        return access;
     }
 
     //check if user is a member the room
@@ -76,10 +76,10 @@ User.prototype.leaveRoom = function (roomName) {
     //Room access validation
     let access = roomAccess(name)
     if(access !== true){
-        return val;
+        return access;
     }
-    if (DB.rooms.hasOwnProperty(roomName) && DB.rooms[roomName][1].members.includes(this.username)) {
 
+    if (access && DB.rooms[roomName][1].members.includes(this.username)) {
         DB.rooms[roomName][0].roomCount--;
         for (let i = 0; i < 5; i++) {
             if (DB.rooms[roomName][1].members[i] === this.username) {
@@ -89,11 +89,14 @@ User.prototype.leaveRoom = function (roomName) {
         DB.rooms[roomName][2].forum.push(`${this.username} left`)
         return `You left the chat`;
     }
+    else{
+        return `You don't have access to this room`;
+    }
 }
 
 User.prototype.sendReport = function (message) {
     DB.user_reports.push(message);
-    return `Message delivered `
+    return `Message delivered`
 }
 
 
