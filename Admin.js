@@ -2,7 +2,8 @@ const user = require('./user');
 const DB = require('./DB');
 
 function Admin(name, password){
-    user.call(this, name, password);
+    this.name = name;
+    this.password = password;
     DB.admin.push(this);
 }
 
@@ -43,8 +44,4 @@ Admin.prototype.readReports = function(){
     return DB.user_reports;
 }
 
-
-let admin = new Admin('charles', 2345);
-admin.deleteAllUsers();
-console.log(admin.deleteOneUser('marcus'));
-console.log(DB.rooms.teens)
+module.exports = Admin;
