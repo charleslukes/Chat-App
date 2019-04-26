@@ -1,12 +1,15 @@
 const DB = require('./DB');
-
+const access = require('./roomAccess')
 
 //creating the user constructor
-function User(username, password) {
+function User(username,email, password) {
     this.username = username.toLowerCase();
+    this.email = email;
     this.password = password;
+
     DB.users.push(this);
 }
+
 
 //user check for available rooms
 User.prototype.viewRooms = function viewRooms() {
@@ -15,14 +18,11 @@ User.prototype.viewRooms = function viewRooms() {
 
 //user can join room
 User.prototype.joinRoom = function (roomName) {
+
     let name = roomName.toLowerCase();
-    let access = false;
-    if (DB.rooms.hasOwnProperty(name)) {
-        access = true;
-    }
-    else {
-        return `Room doesn't exists`
-    }
+    //Room access validation
+    access(name);
+
     if (access && DB.rooms[name][0].roomCount < 5) {
         if(DB.rooms[name][1].members.includes(this.username)){
             return `You are already a member of this room`;
@@ -44,15 +44,11 @@ User.prototype.joinRoom = function (roomName) {
 }
 
 User.prototype.sendChatMessage = function (roomName, message) {
-    let name = roomName.toLowerCase();
 
-    let access = false;
-    if (DB.rooms.hasOwnProperty(name)) {
-        access = true;
-    }
-    else {
-        return `Room doesn't exists`
-    }
+    let name = roomName.toLowerCase();
+    //Room access validation
+    access(name);
+
     //check if user is a member the room
     if (access && DB.rooms[name][1].members.includes(this.username)) { 
         let chat = {};
@@ -66,6 +62,11 @@ User.prototype.sendChatMessage = function (roomName, message) {
 }
 
 User.prototype.leaveRoom = function (roomName) {
+
+    let name = roomName.toLowerCase();
+    //Room access validation
+    access(name);
+
     if (DB.rooms.hasOwnProperty(roomName) && DB.rooms[roomName][1].members.includes(this.username)) {
 
         DB.rooms[roomName][0].roomCount--;
@@ -86,31 +87,3 @@ User.prototype.sendReport = function (message) {
 
 
 module.exports = User;
-
-
-let user1 = new User('mickey', 123);
-let user2 = new User('spartan', 222);
-let user3 = new User('amak', 111);
-let user4 = new User('josmak', 333);
-let user5 = new User('marcus', 444);
-let user6 = new User('piro', 456);
-
-
-console.log(user1.viewRooms())
-console.log(user1.joinRoom('teens'));
-console.log(user2.joinRoom('teens'));
-console.log(user3.joinRoom('teens'));
-console.log(user4.joinRoom('teens'));
-console.log(user5.joinRoom('teens'));
-console.log(user6.joinRoom('teens'));
-
-console.log(user1.leaveRoom('teens'));
-console.log(user2.joinRoom('teens'));
-console.log(user5.sendChatMessage('teens', 'Hey guys'));
-//console.log(user1.sendChatMessage('teenhds', 'Whats up guys'));
-
-
-
-//console.log(DB.rooms.teens[2])
-
-console.log(DB.rooms.teens)
